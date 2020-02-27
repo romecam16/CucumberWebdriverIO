@@ -128,12 +128,12 @@ exports.config = {
     // If you are using Cucumber you need to specify the location of your step definitions.
     cucumberOpts: {
         require: [
-            "./steps/**/given.js",
-            "./steps/**/when.js",
-            "./steps/**/then.js"
+            './steps/**/given.mjs',
+            './steps/**/when.js',
+            './steps/**/then.js',
         ],        // <string[]> (file/dir) require files before executing features
         backtrace: false,   // <boolean> show full backtrace for errors
-        requireModule: [],  // <string[]> ("extension:module") require files with the given EXTENSION after requiring MODULE (repeatable)
+        requireModule: ['@babel/register'],  // <string[]> ("extension:module") require files with the given EXTENSION after requiring MODULE (repeatable)
         dryRun: false,      // <boolean> invoke formatters without executing steps
         failFast: false,    // <boolean> abort the run on first failure
         format: ['pretty'], // <string[]> (type[:path]) specify the output format, optionally supply PATH to redirect formatter output (repeatable)
@@ -170,7 +170,9 @@ exports.config = {
      * @param {Array.<String>} specs List of spec file paths that are to be run
      */
     beforeSession: function (config, capabilities, specs) {
-        require("@babel/register");
+        require("@babel/register")({
+            presets: ["@babel/preset-env"]
+        });
     },
     /**
      * Gets executed before test execution begins. At this point you can access to all global
